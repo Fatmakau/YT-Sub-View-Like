@@ -1,0 +1,107 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+${{trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+  displayName: 'Run a multi-line script'
+
+name: string  # build numbering format
+resources:
+  containers: [ containerResource ]
+  repositories: [ repositoryResource ]
+
+variables: { string: string } | [ variable | templateReference ]
+trigger: trigger
+pr: pr
+stages: [ stage | templateReference ]
+
+# ... other pipeline-level keywords
+jobs: [ job | templateReference ]
+
+# ... other pipeline-level keywords
+steps: [ script | bash | pwsh | powershell | checkout | task | templateReference ]
+
+stages:
+- stage: string  # name of the stage, A-Z, a-z, 0-9, and underscore
+  displayName: string  fatmakauytshop
+  dependsOn: string | [ string ]
+  condition: string
+  variables: { string: string } | [ variable | variableReference ] 
+  jobs: [ job | templateReference]
+
+jobs:
+- job: string  # name of the job, A-Z, a-z, 0-9, and underscore
+  displayName: string  # friendly name to display in the UI
+  dependsOn: string | [ string ]
+  condition: string
+  strategy:
+    parallel: # parallel strategy, see below
+    matrix: # matrix strategy, see below
+    maxParallel: number # maximum number of matrix jobs to run simultaneously
+  continueOnError: boolean  # 'true' if future jobs should run even if this job fails; defaults to 'false'
+  pool: pool # see pool schema
+  workspace:
+    clean: outputs | resources | all # what to clean up before the job runs
+  container: containerReference # container to run this job inside
+  timeoutInMinutes: number # how long to run the job before automatically cancelling
+  cancelTimeoutInMinutes: number # how much time to give 'run always even if cancelled tasks' before killing them
+  variables: { string: string } | [ variable | variableReference ] 
+  steps: [ script | bash | pwsh | powershell | checkout | task | templateReference ]
+  services: { string: string | container } # container resources to run as a service container
+
+  container: string # Docker Hub image reference or resource alias
+
+  container:
+  image: string  # container image name
+  options: string  # arguments to pass to container at startup
+  endpoint: string  # endpoint for a private container registry
+  env: { string: string }  # list of environment variables to add
+
+  strategy:
+  matrix: { string1: { string2: string3 } }
+  maxParallel: number
+
+  strategy:
+  parallel: 4
+
+  jobs:
+- deployment: string   # name of the deployment job, A-Z, a-z, 0-9, and underscore
+  displayName: string  # friendly name to display in the UI
+  pool:                # see pool schema
+    name: string
+    demands: string | [ string ]
+  dependsOn: string 
+  condition: string 
+  continueOnError: boolean                # 'true' if future jobs should run even if this job fails; defaults to 'false'
+  timeoutInMinutes: nonEmptyString        # how long to run the job before automatically cancelling
+  cancelTimeoutInMinutes: nonEmptyString  # how much time to give 'run always even if cancelled tasks' before killing them
+  variables: { string: string } | [ variable | variableReference ]  
+  environment: string  # target environment name and optionally a resource-name to record the deployment history; format: <environment-name>.<resource-name>
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - script: [ script | bash | pwsh | powershell | checkout | task | templateReference ]
+
+steps: [ script | bash | pwsh | powershell | checkout | task | templateReference ]
+
+variables: { string: string }
+
+variables:
+- name: string # name of a variable
+  value: any # value of the variable
+- group: string # name of a variable group}})
+
